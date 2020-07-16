@@ -1,0 +1,780 @@
+openapi: 3.0.0
+info:
+  title: Fish Competition
+  description: API para um serviço hipotético de resultados de uma competição de pescaria
+  version: 0.1
+servers:
+  - url: http://api.example.com/v1
+    description: Optional server description, e.g. Main (production) server
+paths:
+  /teams:
+    get:
+      tags:
+        - team
+      summary: Return a list of teams
+      responses:
+        '200':
+          description: A JSON array of teams
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+    post:
+      tags:
+        - team
+      summary: Create a new team
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: team
+          in: body
+          description: The team JSON to be added
+          schema:
+            $ref: '#/components/schemas/Team'
+          required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+              description: New resource's URL
+        '400':
+          description: Content invalid.
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+  /teams/{id}:
+    get:
+      tags:
+        - team
+      summary: Returns a team
+      parameters:
+        - name: id
+          in: path
+          description: The tournament identifier
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: A JSON of team
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '400':
+          description: The specified team ID is invalid (not a number).
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    put:
+      tags:
+        - team
+      summary: Update a team
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: The tournament identifier
+          schema:
+            type: integer
+          required: true
+        - name: team
+          in: body
+          description: The team JSON to be updated
+          schema:
+            $ref: '#/components/schemas/Team'
+          required: true
+      responses:
+        '200':
+          description: A JSON of team updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    delete:
+      tags:
+        - team
+      summary: Deletes a team
+      parameters:
+        - name: id
+          in: path
+          description: The tournament identifier
+          schema:
+            type: integer
+          required: true
+      responses:
+        '204':
+          description: Success
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /tournaments:
+    get:
+      tags:
+        - tournament
+      summary: Return a list of tournaments
+      responses:
+        '200':
+          description: A JSON array of teams
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tournament'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+    post:
+      tags:
+        - tournament
+      summary: Create a new tournament
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: tournament
+          in: body
+          description: The tournament JSON to be added
+          schema:
+            $ref: '#/components/schemas/Tournament'
+          required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+              description: New resource's URL
+        '400':
+          description: Content invalid.
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+  /tournament/{id}:
+    get:
+      tags:
+        - tournament
+      summary: Returns a tournament
+      parameters:
+        - name: id
+          in: path
+          description: The tournament identifier
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: A JSON of tournament
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tournament'
+        '400':
+          description: The specified tournament ID is invalid (not a number).
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    put:
+      tags:
+        - tournament
+        summary: Update a tournament
+        consumes:
+          - application/json
+        produces:
+          - application/json
+        parameters:
+          - name: id
+            in: path
+            description: The tournament identifier
+            schema:
+              type: integer
+            required: true
+        parameters:
+          - name: tournament
+            in: body
+            description: The tournament JSON to be updated
+            schema:
+              $ref: '#/components/schemas/Tournament'
+            required: true
+        responses:
+          '200':
+            description: A JSON of tournament updated
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Tournament'
+          '401':
+            $ref: '#/components/responses/401Unauthorized'
+          '404':
+            $ref: '#/components/responses/404NotFound'
+    delete:
+      tags:
+        - tournament
+        summary: Deletes a tournament
+        parameters:
+          - name: id
+            in: path
+            description: The tournament JSON identifier
+            schema:
+              type: integer
+            required: true
+        responses:
+          '204':
+            description: Success
+          '401':
+            $ref: '#/components/responses/401Unauthorized'
+          '404':
+            $ref: '#/components/responses/404NotFound'
+  /athletes:
+    get:
+      tags:
+        - athlete
+      summary: Return a list of athletes
+      responses:
+        '200':
+          description: A JSON array of athletes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Athlete'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+    post:
+      tags:
+        - athlete
+      summary: Create a new athlete
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: athlete
+          in: body
+          description: The athlete JSON to be added
+          schema:
+            $ref: '#/components/schemas/Athlete'
+          required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+              description: New resource's URL
+        '400':
+          description: Content invalid.
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+  /athletes/{id}:
+    get:
+      tags:
+        - athlete
+      summary: Returns an athlete
+      parameters:
+        - name: id
+          in: path
+          description: The athlete identifier
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: A JSON of athlete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Athlete'
+        '400':
+          description: The specified athlete ID is invalid (not a number).
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    put:
+      tags:
+        - athlete
+      summary: Update an athlete
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: The athlete identifier
+          schema:
+            type: integer
+          required: true
+        - name: athlete
+          in: body
+          description: The athlete JSON to be updated
+          schema:
+            $ref: '#/components/schemas/Athlete'
+          required: true
+      responses:
+        '200':
+          description: A JSON of athlete updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Athlete'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    delete:
+      tags:
+        - athlete
+      summary: Deletes an athlete
+      parameters:
+        - name: id
+          in: path
+          description: The athlete identifier
+          schema:
+            type: integer
+          required: true
+      responses:
+        '204':
+          description: Success
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /competitions:
+    get:
+      tags:
+        - competitions
+      summary: Return a list of competitions
+      responses:
+        '200':
+          description: A JSON array of competitions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Competition'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+    post:
+      tags:
+        - competitions
+      summary: Create a new competition
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Competition
+          in: body
+          description: The competition JSON to be added
+          schema:
+            $ref: '#/components/schemas/Competition'
+          required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+              description: New resource's URL
+        '400':
+          description: Content invalid.
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+  /competitions/{id}:
+    get:
+      tags:
+        - competitions
+      summary: Returns a competition
+      parameters:
+        - name: id
+          in: path
+          description: The competition identifier
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: A JSON of competition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Competition'
+        '400':
+          description: The specified competition ID is invalid (not a number).
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    put:
+      tags:
+        - competitions
+      summary: Update a competition
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: The competition identifier
+          schema:
+            type: integer
+          required: true
+        - name: competition
+          in: body
+          description: The competition JSON to be updated
+          schema:
+            $ref: '#/components/schemas/Competition'
+          required: true
+      responses:
+        '200':
+          description: A JSON of competition updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Competition'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    delete:
+      tags:
+        - competition
+      summary: Deletes an competition
+      parameters:
+        - name: id
+          in: path
+          description: The competition identifier
+          schema:
+            type: integer
+          required: true
+      responses:
+        '204':
+          description: Success
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+  /competitions/{id}/results:
+    get:
+      tags:
+        - result
+      summary: Return a list of results of a competition
+      parameters:
+        - name: id
+          in: path
+          description: The competition identifier
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: A JSON array of results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Result'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+    post:
+      tags:
+        - result
+      summary: Create a new result
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: The competition identifier
+          schema:
+            type: integer
+          required: true
+        - name: Competition
+          in: body
+          description: The competition JSON to be added
+          schema:
+            $ref: '#/components/schemas/Competition'
+          required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+              description: New resource's URL
+        '400':
+          description: Content invalid.
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+  /competitions/{competitionId}/results/{resultId}:
+    get:
+      tags:
+        - competition
+        - result
+      summary: Returns a result of a competition
+      parameters:
+        - name: competitionId
+          in: path
+          description: The competition identifier
+          schema:
+            type: integer
+          required: true
+        - name: resultId
+          in: path
+          description: The result identifier
+          schema:
+            type: integer
+          required: true  
+      responses:
+        '200':
+          description: A JSON of result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+        '400':
+          description: The specified competition or result ID is invalid (not a number).
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    put:
+      tags:
+        - competition
+        - result
+      summary: Update an result
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: competitionId
+          in: path
+          description: The competition identifier
+          schema:
+            type: integer
+          required: true
+        - name: resultId
+          in: path
+          description: The result identifier
+          schema:
+            type: integer
+          required: true
+        - name: result
+          in: body
+          description: The result JSON to be updated
+          schema:
+            $ref: '#/components/schemas/Result'
+          required: true
+      responses:
+        '200':
+          description: A JSON of result updated
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Result'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+    delete:
+      tags:
+        - result
+      summary: Deletes a result
+      parameters:
+        - name: competitionId
+          in: path
+          description: The competition identifier
+          schema:
+            type: integer
+          required: true
+        - name: resultId
+          in: path
+          description: The result identifier
+          schema:
+            type: integer
+          required: true  
+      responses:
+        '204':
+          description: Success
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+components:
+  #-------------------
+  # Reusable responses
+  #-------------------
+  responses:
+    404NotFound:        # Can be referenced as '#/components/responses/404NotFound'
+      description: The specified resource was not found.
+      content:
+      application/json:
+          schema:
+          $ref: '#/components/schemas/Error'
+    401Unauthorized:    # Can be referenced as '#/components/responses/401Unauthorized'
+      description: Unauthorized
+      content:
+      application/json:
+          schema:
+          $ref: '#/components/schemas/Error'
+  #-------------------------------
+  # Reusable schemas (data models)
+  #-------------------------------
+  schemas:
+    Team:               # Can be referenced as '#/components/schemas/Team'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+      required:
+        - id
+        - name
+    Athlete:         # Can be referenced as '#/components/schemas/Athlete'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        birthday:
+          type: string
+          format: date
+      required:
+        - id
+        - name
+    Tournament:         # Can be referenced as '#/components/schemas/Tournament'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date
+        required:
+          - id
+          - name
+          - created_at
+    Competition:               # Can be referenced as '#/components/schemas/Competition'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        local:
+          type: string
+        tournament_id:
+          type: integer
+          format: int32
+        started_at:
+          type: string
+          format: date-time
+        finished_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        obs:
+          type: string
+      required:
+        - id
+        - name
+        - created_at
+    Result:             # Can be referenced as '#/components/schemas/Result'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        competitor_id:
+          type: integer
+          format: int32
+        qtd:
+          type: integer
+          format: int32
+        weight:
+          type: integer
+          format: int32
+        time:
+          type: string
+          format: date-time
+        competition_id:
+          type: integer
+          format: int64
+      required:
+        - id
+        - name
+    Error:              # Can be referenced as '#/components/schemas/Error'
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+  #-------------------------------
+  # Reusable operation parameters
+  #-------------------------------
+  parameters:
+    offsetParam:        # Can be referenced as '#/components/parameters/offsetParam'
+      name: offset
+        in: query
+        description: Number of items to skip before returning the responses.
+        required: false
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+          default: 0
+            
+    limitParam:         # Can be referenced as '#/components/parameters/limitParam'
+      name: limit
+        in: query
+        description: Maximum number of items to return.
+        required: false
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100
+          default: 20
