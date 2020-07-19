@@ -33,7 +33,7 @@ public class TeamController {
 
   @PostMapping()
   public ResponseEntity add(@RequestBody Team team) {
-    return ResponseEntity.ok(team);
+    return ResponseEntity.created(URI.create("/teams/" + team.getId())).build();
   }
 
   @GetMapping("/{id}")
