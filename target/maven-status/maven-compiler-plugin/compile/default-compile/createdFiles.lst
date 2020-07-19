@@ -1,6 +1,0 @@
-com/example/simple/SimpleApplication.class
-com/example/simple/controllers/CompetitionController.class
-com/example/simple/controllers/AthleteController.class
-com/example/simple/controllers/TournamentController.class
-com/example/simple/models/Team.class
-com/example/simple/controllers/TeamController.class
