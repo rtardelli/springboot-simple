@@ -1,9 +1,10 @@
 package com.example.simple.controllers;
 
+import java.net.URI;
 import java.util.Arrays;
-import java.util.List;
 
 import com.example.simple.models.Team;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TeamController {
 
   @GetMapping()
-  public List<Team> getAllTeams() {
+  public ResponseEntity all() {
     Team t1 = new Team();
     t1.setId(1);
     t1.setName("Team One");
@@ -27,31 +28,33 @@ public class TeamController {
     t2.setId(2);
     t2.setName("Team Two");
 
-    return Arrays.asList(t1, t2);
+    return ResponseEntity.ok().body(Arrays.asList(t1, t2));
   }
 
   @PostMapping()
-  public Team addTeam(@RequestBody Team team) {
-    return team;
+  public ResponseEntity add(@RequestBody Team team) {
+    return ResponseEntity.ok(team);
   }
 
   @GetMapping("/{id}")
-  public Team getTeam(@PathVariable("id") String teamId) {
+  public ResponseEntity one(@PathVariable("id") String teamId) {
     Team t1 = new Team();
     t1.setId(Integer.parseInt(teamId));
     t1.setName("Team One");
 
-    return t1;
+    return ResponseEntity.created(URI.create("/teams/" + teamId)).body(t1);
   }
 
   @PutMapping("/{id}")
-  public Team updateTeam(@PathVariable("id") String teamId, @RequestBody Team team) {
+  public ResponseEntity update(@PathVariable("id") String teamId, @RequestBody Team team) {
     team.setId(Integer.parseInt(teamId));
 
-    return team;
+    return ResponseEntity.ok().body(team);
   }
 
   @DeleteMapping("/{id}")
-  public void deleteTeam(@PathVariable("id") String teamId) {
+  public ResponseEntity delete(@PathVariable("id") String teamId) {
+
+    return ResponseEntity.noContent().build();
   }
 }
