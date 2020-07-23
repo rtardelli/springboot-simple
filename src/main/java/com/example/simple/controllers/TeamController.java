@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.Arrays;
 
 import com.example.simple.models.Team;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/teams")
 public class TeamController {
+
+  private static final Logger logger = LoggerFactory.getLogger(TeamController.class);
 
   @GetMapping()
   public ResponseEntity all() {
